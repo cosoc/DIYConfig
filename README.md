@@ -17,8 +17,5 @@ mvn install:install-file -Dfile=./DIYConfig-1.0.jar -DgroupId=cosoc.org.DIYConfi
 </dependency>
 ```
 # 使用
-把DIYConfig.yml配置文件复制到资源目录下，进行配置后
-创建对象 DIYConfigClient 
-该对象将读取需要的配置文件
-使用getAllConfigFile()方法获取所有文件！返回的是 Map<String,File>
-key是文件的主配置目录下的相对路径加主配置目录
+把DIYConfig.yml配置文件复制到资源目录下，进行配置后。配置完成，创建对象 DIYConfigClient,该对象将读取需要的配置文件.
+使用getAllConfigFile()方法获取所有文件！返回的是 Map<String,File>,key是文件的主配置目录下的相对路径加主配置目录
