@@ -6,10 +6,10 @@ DIYConfig工具包为了解决这些重复的工作。他可以轻而易举的�
 # 使用:
 添加依赖包
 ```
-		<dependency>
-			<groupId>cosoc.org</groupId>
-			<artifactId>DIYConfig</artifactId>
-			<version>1.0</version>
-		</dependency>
+<dependency>
+	<groupId>cosoc.org</groupId>
+	<artifactId>DIYConfig</artifactId>
+	<version>1.0</version>
+</dependency>
 ```
 
