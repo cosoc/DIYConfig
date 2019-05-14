@@ -6,12 +6,12 @@ DIYConfig工具包为了解决这些重复的工作。他可以轻而易举的�
 # 安装
 下载jar包在jar包目录下执行
 ```
-mvn install:install-file -Dfile=./DIYConfig-1.0.jar -DgroupId=cosoc.org.DIYConfig -DartifactId=DIYConfig -Dversion=1.0 -Dpackaging=jar
+mvn install:install-file -Dfile=./DIYConfig-1.0.jar -DgroupId=org.cosoc.DIYConfig -DartifactId=DIYConfig -Dversion=1.0 -Dpackaging=jar
 ```
 添加依赖包
 ```
 <dependency>
-	<groupId>cosoc.org.DIYConfig</groupId>
+	<groupId>org.cosoc.DIYConfig</groupId>
 	<artifactId>DIYConfig</artifactId>
 	<version>1.0</version>
 </dependency>
