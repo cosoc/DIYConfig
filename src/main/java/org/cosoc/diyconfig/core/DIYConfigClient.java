@@ -29,7 +29,7 @@ public class DIYConfigClient {
 
     /**
      * 默认构造方法
-     * @param userSpaceClass
+     * @param userSpaceClass 用户空间的任意Class
      */
     public DIYConfigClient(Class<?> userSpaceClass) {
         this.userSpaceClass = userSpaceClass;
@@ -45,8 +45,8 @@ public class DIYConfigClient {
 
     /**
      * 给出自定义路径构造方法
-     * @param userSpaceClass
-     * @param configPath
+     * @param userSpaceClass 用户空间的任意Class
+     * @param configPath 配置文件路径
      */
     public DIYConfigClient(Class<?> userSpaceClass,String configPath) {
         this.userSpaceClass = userSpaceClass;
@@ -60,7 +60,7 @@ public class DIYConfigClient {
     /**
      * 获取所有的配置文件
      * 此方法不需要每次读取
-     * @return
+     * @return 所有读取到的配置文件
      */
     public Map<String, File> getAllConfigFile() {
         return allConfigFile;
@@ -71,7 +71,7 @@ public class DIYConfigClient {
      * 这个文件提供用户调用
      * 他会返回所有符合条件的File列表
      * 此方法需要每次获取都读取
-     * @return
+     * @return 读取到的所有文件
      */
     public Map<String, File> readConfig(){
 
@@ -84,7 +84,7 @@ public class DIYConfigClient {
 
     /**
      * 读取自身的配置文件
-     * @param filePath
+     * @param filePath 给定的路径
      */
     @SuppressWarnings("unchecked")
     private void readDIYConfig(String filePath) {

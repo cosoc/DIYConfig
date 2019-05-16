@@ -16,7 +16,7 @@ public class PathUtil {
      * 为什么这样做：
      *    因为这个类打包以后获取的路径是他自己的jar包路径
      *    而不是应用环境的路径,所以传入Class做为参考
-     * @param userSpaceClass
+     * @param userSpaceClass 用户空间任意Class
      */
     public PathUtil(Class<?> userSpaceClass){
         this.userSpaceClass = userSpaceClass;
@@ -31,11 +31,11 @@ public class PathUtil {
      *    有还有检测是否当前目录存在这么一个jar包名
      *    后得出结果
      *
-     *    ----->>>>这个方法是基于打jar包后会带一个特殊符号!<<<<<----
+     *    这个方法是基于打jar包后会带一个特殊符号!
      *
      *    如果这个！符号不存在那么这个方法彻底的崩塌了
      *
-     * @return
+     * @return 返回当前真实的路径
      */
     public String getDefaultPath(){
 
@@ -90,7 +90,7 @@ public class PathUtil {
 
     /**
      * 获取系统文件分割符
-     * @return
+     * @return 返回分隔符
      */
     public String getFileSeparator(){
         return System.getProperty("file.separator");
@@ -98,7 +98,7 @@ public class PathUtil {
 
     /**
      * 获取系统路径分割符
-     * @return
+     * @return 返回分隔符
      */
     public String getPathSeparator(){
         return System.getProperty("path.separator");

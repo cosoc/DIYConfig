@@ -13,8 +13,8 @@ public class FileTypeConfigManage {
 
     /**
      * 返回读取到的文件
-     * @param filePath
-     * @return
+     * @param filePath 文件路径
+     * @return 返回文件集
      */
     public static  Iterable<Object>  ymlReader(String filePath){
         //配置文件读取

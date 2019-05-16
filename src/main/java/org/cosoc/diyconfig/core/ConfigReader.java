@@ -37,8 +37,8 @@ public class ConfigReader {
      * 经典配置文件读取
      * 所有配置文件放置主配置目录下或者子目录下
      * 该方法将根据配置文件规则一一的读取
-     * @param path
-     * @param allConfigFile
+     * @param path 读取的目录
+     * @param allConfigFile 所有的文件集合
      */
     public void readClassicConfig(String path, Map<String,File> allConfigFile){
         //提取符合规则的配置文件
@@ -70,7 +70,7 @@ public class ConfigReader {
      * 然后判断读取规则
      * 如果读取返回true
      * 如果不读取返回 false
-     * @param file
+     * @param file 需要判断的文件
      */
     private boolean isReadFile(File file){
 
@@ -187,8 +187,8 @@ public class ConfigReader {
      * 获取文件的map中的key
      * 这个方法返回的是相对于主配置目录下的路径作为文件的key
      * 如果这个文件不在config路径之下，将在前加&以做标识
-     * @param file
-     * @return
+     * @param file 文件
+     * @return 返回key
      */
     private String getFileKey(File file) {
         String path = null;
