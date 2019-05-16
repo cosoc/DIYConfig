@@ -20,6 +20,8 @@ public class DIYConfigInfo {
     public static String R_Prey;
     //狩猎类型
     public static String R_PreyTarget;
+    //文件需要截取掉的字符串
+    public static List<String> R_fileMapFlagKey;
     //配置文件主目录
     public static List<String> R_ConfigFilePath;
     //文件目录排除正则表达式
@@ -34,6 +36,7 @@ public class DIYConfigInfo {
                 + "R_PreyTarget:" + R_PreyTarget + "\n"
                 + "R_ConfigPath:" + R_ConfigFilePath + "\n"
                 + "R_S_Read:" + R_E_Regex + "\n"
-                + "R_E_Regex:" + R_E_SpecialFile + "\n";
+                + "R_E_Regex:" + R_E_SpecialFile + "\n"
+                + "R_fileMapFlagKey" + R_fileMapFlagKey + "\n";
     }
 }

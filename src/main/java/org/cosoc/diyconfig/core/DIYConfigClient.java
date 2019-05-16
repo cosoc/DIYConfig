@@ -53,7 +53,15 @@ public class DIYConfigClient {
         this.configReader = new ConfigReader(userSpaceClass);
         this.logger = LoggerFactory.getLogger(getClass());
         this.pathUtil = new PathUtil(userSpaceClass);
-        readDIYConfig(configPath);
+        String finalConfigPath = configPath;
+        if(configPath.contains("classpath:")){
+            String [] splitPath = configPath.split(":");
+            finalConfigPath = pathUtil.getDefaultPath() + splitPath[1];
+            if(!finalConfigPath.endsWith(pathUtil.getFileSeparator())){
+                finalConfigPath = pathUtil.getDefaultPath() + splitPath[1] + pathUtil.getFileSeparator();
+            }
+        }
+        readDIYConfig(finalConfigPath);
         this.allConfigFile = readConfig();
     }
 
@@ -134,11 +142,14 @@ public class DIYConfigClient {
             if(readRule.get("prey") != null) {
                 DIYConfigInfo.R_Prey = readRule.get("prey").toString();
             }
+
             //狩猎类型
             if(readRule.get("preyTarget") != null) {
                 DIYConfigInfo.R_PreyTarget = readRule.get("preyTarget").toString();
             }
 
+            //文件需要截取掉的字符串
+            DIYConfigInfo.R_fileMapFlagKey = (List<String>)readRule.get("fileMapFlagKey");
 
             //文件排除规则
             Map<String,Object> exclude = (Map<String,Object>)readRule.get("exclude");

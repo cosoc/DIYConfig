@@ -187,22 +187,43 @@ public class ConfigReader {
      * 获取文件的map中的key
      * 这个方法返回的是相对于主配置目录下的路径作为文件的key
      * 如果这个文件不在config路径之下，将在前加&以做标识
-     * @param file 文件
-     * @return 返回key
+     * @param file 文件原始名称
+     * @return 返回还原后的文件名(可能改变也可能不变)
      */
     private String getFileKey(File file) {
         String path = null;
+        //获取真实文件名
+        String realFileName = file.getName();
+        for(String flagStr : DIYConfigInfo.R_fileMapFlagKey){
+            realFileName = file.getName();
+            if(file.getName().contains(flagStr)){
+                realFileName = file.getName().replace(flagStr,"");
+                break;
+            }
+        }
+
+        //获取路径
         try {
             for(String pathStr : DIYConfigInfo.R_ConfigFilePath) {
                 if(file.getCanonicalPath().contains(pathStr)){
                     File parentDir = new File(pathStr);
-                    path  = parentDir.getName() + pathUtil.getFileSeparator() + (file.getCanonicalPath().replace(pathStr,""));
+                    if(!((file.getParentFile().getCanonicalPath() + pathUtil.getFileSeparator()).equals(pathStr ))){
+                        path = parentDir.getName()
+                                + pathUtil.getFileSeparator()
+                                + file.getParentFile().getCanonicalPath().replace(pathStr,"")
+                                + pathUtil.getFileSeparator()
+                                + realFileName;
+                    }else{
+                        path  = parentDir.getName()
+                                + pathUtil.getFileSeparator()
+                                + realFileName;
+                    }
                     return path;
                 }
             }
-            //若只是单独的文件
+            //若只是单独的文件(没有主目录孤立的文件)
             File parentDir = file.getParentFile();
-            path  = parentDir.getName() + pathUtil.getFileSeparator() + file.getName();
+            path  = parentDir.getName() + pathUtil.getFileSeparator() + realFileName;
         } catch (IOException e) {
             e.printStackTrace();
         }
