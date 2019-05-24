@@ -8,13 +8,31 @@
     <artifactId>DIYConfig</artifactId>
     <version>1.0</version>
 
+    <name>DIYConfig</name>
+    <description>DIYConfig是一个完全自定义的配置文件读取工具</description>
+    <url>https://github.com/cosoc/DIYConfig</url>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License v3.0</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>陈章起</name>
+            <email>1104589529@qq.com</email>
+        </developer>
+    </developers>
+
     <dependencies>
 
-		<dependency>
-			  <groupId>org.yaml</groupId>
-			  <artifactId>snakeyaml</artifactId>
-			  <version>1.5</version>
-		 </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.5</version>
+        </dependency>
 
         <dependency>
             <groupId>dom4j</groupId>
@@ -45,8 +63,9 @@
             <artifactId>reflections</artifactId>
             <version>0.9.11</version>
         </dependency>
+    </dependencies>
 
-   <!-- <distributionManagement>
+    <distributionManagement>
         <repository>
             <id>snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -55,20 +74,102 @@
             <id>snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
-    </distributionManagement> -->
+    </distributionManagement>
 
-
-    </dependencies>
+    <scm>
+        <connection>scm:git:git@github.com:cosoc/DIYConfig.git</connection>
+        <developerConnection>scm:git:git@github.com:cosoc/DIYConfig.git</developerConnection>
+        <url>git@github.com:cosoc/DIYConfig.git</url>
+        <tag>DIYConfig-1.0</tag>
+    </scm>
 
     <properties>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <plugins>
-                 <!-- 指定编译文件的编码 -->
-        		<plugin>
+            <!--deploy插件-->
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--sonatype的staging插件-->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>snapshots</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+
+            <!--SCM插件-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.8.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <mavenExecutorId>forked-path</mavenExecutorId>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <arguments>-Psonatype-oss-release</arguments>
+                    <pushChanges>false</pushChanges>
+                    <localCheckout>false</localCheckout>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <checkModificationExcludes>
+                        <checkModificationExclude>.*</checkModificationExclude>
+                        <checkModificationExclude>pom.xml</checkModificationExclude>
+                        <checkModificationExclude>release-pom.xml</checkModificationExclude>
+                        <checkModificationExclude>target</checkModificationExclude>
+                        <checkModificationExclude>LICENSE</checkModificationExclude>
+                        <checkModificationExclude>README.md</checkModificationExclude>
+                    </checkModificationExcludes>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-scm-plugin</artifactId>
+                        <version>1.8.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 指定编译文件的编码 -->
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
@@ -79,8 +180,8 @@
                 </configuration>
             </plugin>
 
-		    <!-- 生成javadoc文档包的插件 -->
-			 <plugin>
+            <!-- 生成javadoc文档包的插件 -->
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.10.2</version>
@@ -97,35 +198,35 @@
                 </executions>
             </plugin>
 
-              <!-- 生成sources源码包的插件 -->
+            <!-- 生成sources源码包的插件 -->
             <plugin>
-			    <artifactId>maven-source-plugin</artifactId>
-			    <version>2.4</version>
-			    <configuration>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
                     <attach>true</attach>
                 </configuration>
-			    <executions>
-			        <execution>
-			              <!-- 可用值 compile package install -->
-			            <phase>compile</phase>
-			            <goals>
-			                <goal>jar</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			</plugin>
+                <executions>
+                    <execution>
+                        <!-- 可用值 compile package install -->
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<plugin>
-			    <artifactId>maven-surefire-plugin</artifactId>
-			    <version>2.6</version>
-			    <configuration>
-			        <!-- 打包跳过单元测 -->
-			        <skip>true</skip>
-			        <!-- 单元测试中有输出中文，eclipse的控制台里中文可能会变成乱码输出 -->
-			        <forkMode>once</forkMode>
-                   <argLine>-Dfile.encoding=UTF-8</argLine>
-			    </configuration>
-			</plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <!-- 打包跳过单元测 -->
+                    <skip>true</skip>
+                    <!-- 单元测试中有输出中文，eclipse的控制台里中文可能会变成乱码输出 -->
+                    <forkMode>once</forkMode>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                </configuration>
+            </plugin>
 
             <!-- 设置resouce目录下的所有文件编码，否则如果配置xml文件中有中文字符，部署后可能会引起运行失败 -->
             <plugin>
