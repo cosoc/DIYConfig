@@ -14,7 +14,10 @@ mvn install:install-file -Dfile=./DIYConfig-1.0.jar -DgroupId=org.cosoc.DIYConfi
 ```
 mvn clean install
 ```
-添加依赖包
+## 方法三
+直接使用中央仓库
+
+## 添加依赖包
 ```
 <dependency>
 	<groupId>org.cosoc.DIYConfig</groupId>
