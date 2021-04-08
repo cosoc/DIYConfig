@@ -20,12 +20,11 @@ import org.slf4j.LoggerFactory;
 public class DIYConfigClient {
 
     @SuppressWarnings("unused")
-	private Class<?> userSpaceClass;
+    private Class<?> userSpaceClass;
     private ConfigReader configReader;
     private Logger logger;
     private PathUtil pathUtil;
-    private Map<String,File> allConfigFile;
-
+    private Map<String, File> allConfigFile;
 
     /**
      * 默认构造方法
@@ -39,6 +38,7 @@ public class DIYConfigClient {
         //默认配置文件位置
         String defaultConfigPath = pathUtil.getDefaultPath();
         String defaultConfigFile = defaultConfigPath + "DIYConfig.yml";
+
         readDIYConfig(defaultConfigFile);
         this.allConfigFile = readConfig();
     }
@@ -48,16 +48,16 @@ public class DIYConfigClient {
      * @param userSpaceClass 用户空间的任意Class
      * @param configPath 配置文件路径
      */
-    public DIYConfigClient(Class<?> userSpaceClass,String configPath) {
+    public DIYConfigClient(Class<?> userSpaceClass, String configPath) {
         this.userSpaceClass = userSpaceClass;
         this.configReader = new ConfigReader(userSpaceClass);
         this.logger = LoggerFactory.getLogger(getClass());
         this.pathUtil = new PathUtil(userSpaceClass);
         String finalConfigPath = configPath;
-        if(configPath.contains("classpath:")){
-            String [] splitPath = configPath.split(":");
+        if (configPath.contains("classpath:")) {
+            String[] splitPath = configPath.split(":");
             finalConfigPath = pathUtil.getDefaultPath() + splitPath[1];
-            if(!finalConfigPath.endsWith(pathUtil.getFileSeparator())){
+            if (!finalConfigPath.endsWith(pathUtil.getFileSeparator())) {
                 finalConfigPath = pathUtil.getDefaultPath() + splitPath[1] + pathUtil.getFileSeparator();
             }
         }
@@ -81,11 +81,11 @@ public class DIYConfigClient {
      * 此方法需要每次获取都读取
      * @return 读取到的所有文件
      */
-    public Map<String, File> readConfig(){
+    public Map<String, File> readConfig() {
 
-        Map<String,File> configMap = new HashMap<String,File>();
+        Map<String, File> configMap = new HashMap<String, File>();
         for (String path : DIYConfigInfo.R_ConfigFilePath) {
-            configReader.readClassicConfig(path,configMap);
+            configReader.readClassicConfig(path, configMap);
         }
         return configMap;
     }
@@ -105,32 +105,32 @@ public class DIYConfigClient {
         //读取配置文件内容
         Iterable<Object> ret = FileTypeConfigManage.ymlReader(filePath);
         for (Object o : ret) {
-            Map<String,Object> fileData = (Map<String,Object>)o;
+            Map<String, Object> fileData = (Map<String, Object>) o;
 
             //版本信息
             DIYConfigInfo.version = (Double) fileData.get("version");
             //版本信息逻辑处理
 
             //基础base配置
-			Map<String,Object> readRule = (Map<String,Object>)fileData.get("readRule");
+            Map<String, Object> readRule = (Map<String, Object>) fileData.get("readRule");
 
             //初始化
             DIYConfigInfo.R_ConfigFilePath = new ArrayList<String>();
             //如果设置为null时这里将读取不到值
-            if(readRule.get("configFilePath") != null){
-                List<String> configPaths = (List<String>)readRule.get("configFilePath");
-                if(configPaths.isEmpty()) {
+            if (readRule.get("configFilePath") != null) {
+                List<String> configPaths = (List<String>) readRule.get("configFilePath");
+                if (configPaths.isEmpty()) {
                     //默认的配置文件位置既主配置目录下
                     DIYConfigInfo.R_ConfigFilePath.add(pathUtil.getDefaultPath());
-                }else{
-                    for (String path : configPaths){
-                        if(path.contains("classpath:")){
+                } else {
+                    for (String path : configPaths) {
+                        if (path.contains("classpath:")) {
                             String[] rPath = path.split("\\:");
-                            path = pathUtil.getDefaultPath() + rPath[rPath.length-1];
+                            path = pathUtil.getDefaultPath() + rPath[rPath.length - 1];
                         }
-                        if(path.endsWith(pathUtil.getFileSeparator())){
+                        if (path.endsWith(pathUtil.getFileSeparator())) {
                             DIYConfigInfo.R_ConfigFilePath.add(path);
-                        }else {
+                        } else {
                             DIYConfigInfo.R_ConfigFilePath.add(path + pathUtil.getFileSeparator());
 
                         }
@@ -139,42 +139,43 @@ public class DIYConfigClient {
             }
 
             //狩猎标记
-            if(readRule.get("prey") != null) {
+            if (readRule.get("prey") != null) {
                 DIYConfigInfo.R_Prey = readRule.get("prey").toString();
             }
 
             //狩猎类型
-            if(readRule.get("preyTarget") != null) {
+            if (readRule.get("preyTarget") != null) {
                 DIYConfigInfo.R_PreyTarget = readRule.get("preyTarget").toString();
             }
 
             //文件需要截取掉的字符串
-            DIYConfigInfo.R_fileMapFlagKey = (List<String>)readRule.get("fileMapFlagKey");
+            DIYConfigInfo.R_fileMapFlagKey = (List<String>) readRule.get("fileMapFlagKey");
 
             //文件排除规则
-            Map<String,Object> exclude = (Map<String,Object>)readRule.get("exclude");
+            Map<String, Object> exclude = (Map<String, Object>) readRule.get("exclude");
             //排除正则表达式
-            if(exclude.get("regex") != null) {
+            if (exclude.get("regex") != null) {
                 DIYConfigInfo.R_E_Regex = (List<String>) exclude.get("regex");
             }
             //排除的特殊文件
             DIYConfigInfo.R_E_SpecialFile = new ArrayList<String>();
-            if(exclude.get("specialFile") != null){
+            if (exclude.get("specialFile") != null) {
                 List<String> pathList = (List<String>) exclude.get("specialFile");
-                for(String path : pathList) {
-                    if(path.contains("classpath:")){
+                for (String path : pathList) {
+                    // 需要转换不容系统的分割符号
+                    path = path.replace("/", pathUtil.getFileSeparator());
+                    if (path.contains("classpath:")) {
                         String[] rPath = path.split("\\:");
-                        path = pathUtil.getDefaultPath() + rPath[rPath.length-1];
+                        path = pathUtil.getDefaultPath() + rPath[rPath.length - 1];
                     }
-                    if(path.endsWith(pathUtil.getFileSeparator())){
+                    if (path.endsWith(pathUtil.getFileSeparator())) {
                         DIYConfigInfo.R_E_SpecialFile.add(path);
-                    }else {
+                    } else {
                         DIYConfigInfo.R_E_SpecialFile.add(path + pathUtil.getFileSeparator());
                     }
                 }
             }
         }
     }
-
 
 }
