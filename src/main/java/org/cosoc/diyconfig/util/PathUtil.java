@@ -18,7 +18,7 @@ public class PathUtil {
      *    而不是应用环境的路径,所以传入Class做为参考
      * @param userSpaceClass 用户空间任意Class
      */
-    public PathUtil(Class<?> userSpaceClass){
+    public PathUtil(Class<?> userSpaceClass) {
         this.userSpaceClass = userSpaceClass;
     }
 
@@ -37,14 +37,14 @@ public class PathUtil {
      *
      * @return 返回当前真实的路径
      */
-    public String getDefaultPath(){
+    public String getDefaultPath() {
 
         String projectRoot = System.getProperty("user.dir") + System.getProperty("file.separator");
 
         String path = userSpaceClass.getResource("").getPath();
 
         //如果不包含！则是开发环境
-        if(!path.contains("!")){
+        if (!path.contains("!")) {
             return getClass().getResource("/").getPath();
         }
 
@@ -56,11 +56,16 @@ public class PathUtil {
          * 如果包含说明是打包的
          * 如果没有默认任务是测试环境
          */
-        String[] patches = path.split(System.getProperty("file.separator"));
+        String[] patches = null;
+        if (OSInfo.isWindows()) {
+            patches = path.split(System.getProperty("file.separator") + System.getProperty("file.separator"));
+        } else {
+            patches = path.split(System.getProperty("file.separator"));
+        }
         //反向遍历更快拿到！符号
-        for(int i=patches.length-1; i>=0; i--){
+        for (int i = patches.length - 1; i >= 0; i--) {
             //找到!符号
-            if(patches[i].contains("!")){
+            if (patches[i].contains("!")) {
                 File file = new File(projectRoot);
                 if (file.exists()) {
                     File[] files = file.listFiles();
@@ -69,7 +74,7 @@ public class PathUtil {
                         return path;
                     } else {
                         for (File file2 : files) {
-                            if((file2.getName() + "!").equals(patches[i])){
+                            if ((file2.getName() + "!").equals(patches[i])) {
                                 return projectRoot;
                             }
                         }
@@ -92,7 +97,7 @@ public class PathUtil {
      * 获取系统文件分割符
      * @return 返回分隔符
      */
-    public String getFileSeparator(){
+    public String getFileSeparator() {
         return System.getProperty("file.separator");
     }
 
@@ -100,9 +105,8 @@ public class PathUtil {
      * 获取系统路径分割符
      * @return 返回分隔符
      */
-    public String getPathSeparator(){
+    public String getPathSeparator() {
         return System.getProperty("path.separator");
     }
-
 
 }
