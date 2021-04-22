@@ -6,7 +6,7 @@
 
     <groupId>org.cosoc.DIYConfig</groupId>
     <artifactId>DIYConfig</artifactId>
-    <version>2.0</version>
+    <version>2.1.0</version>
 
     <name>DIYConfig</name>
     <description>DIYConfig是一个完全自定义的配置文件读取工具</description>

@@ -7,7 +7,7 @@ DIYConfig工具包为了解决这些重复的工作。他可以轻而易举的�
 ## 方法一
 下载jar包在jar包目录下执行
 ```
-mvn install:install-file -Dfile=./DIYConfig-2.0.jar -DgroupId=org.cosoc.DIYConfig -DartifactId=DIYConfig -Dversion=2.0 -Dpackaging=jar
+mvn install:install-file -Dfile=./DIYConfig-2.1.0.jar -DgroupId=org.cosoc.DIYConfig -DartifactId=DIYConfig -Dversion=2.1.0 -Dpackaging=jar
 ```
 ## 方法二
 下载源文件在目录下执行
@@ -22,7 +22,7 @@ mvn clean install
 <dependency>
 	<groupId>org.cosoc.DIYConfig</groupId>
 	<artifactId>DIYConfig</artifactId>
-	<version>2.0</version>
+	<version>2.1.0</version>
 </dependency>
 ```
 # 使用

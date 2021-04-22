@@ -56,12 +56,7 @@ public class PathUtil {
          * 如果包含说明是打包的
          * 如果没有默认任务是测试环境
          */
-        String[] patches = null;
-        if (OSInfo.isWindows()) {
-            patches = path.split(System.getProperty("file.separator") + System.getProperty("file.separator"));
-        } else {
-            patches = path.split(System.getProperty("file.separator"));
-        }
+        String[] patches = path.split("/");
         //反向遍历更快拿到！符号
         for (int i = patches.length - 1; i >= 0; i--) {
             //找到!符号
